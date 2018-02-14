@@ -14,8 +14,8 @@ class User(UserMixin, SurrogatePK, Model):
     email = Column(db.String(80), unique=True, nullable=False)
     created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
 
-    access_token = Column(db.String(128), nullable=False)
-    request_token = Column(db.String(128), nullable=False)
+    access_token = Column(db.String(257), nullable=False)
+    request_token = Column(db.String(257), nullable=False)
 
     def __init__(self, email, **kwargs):
         """Create instance."""

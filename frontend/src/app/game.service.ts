@@ -4,6 +4,10 @@ import { Observable } from "rxjs/Observable";
 
 export interface Game {
   id: string;
+  word: string;
+  guesses: string[];
+  score: number;
+  status: string;
 }
 
 @Injectable()
@@ -39,18 +43,15 @@ export class GameService {
     }) as Observable<Game>;
   }
 
-  guess(gameId): Observable<Game> {
+  guess(gameId, char): Observable<Game> {
     const url = `${this.BASE_URL}/games/${gameId}`;
     const token = this.getToken();
-    return this.http.patch(
-      url,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    const data = { guess: char };
+    return this.http.patch(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    ) as Observable<Game>;
+    }) as Observable<Game>;
   }
 
   highScores() {

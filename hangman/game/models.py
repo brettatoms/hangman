@@ -6,19 +6,38 @@ from hangman.database import Column, Model, SurrogatePK, db, reference_col, rela
 
 
 class GameStatus(Enum):
-    WON = 'won',
-    IN_PROGRESS = 'in_progress',
+    """Represents a games state."""
+
+    WON = 'won'
+    IN_PROGRESS = 'in_progress'
     LOST = 'lost'
 
 
 class Game(SurrogatePK, Model):
+    """Game model."""
+
     __tablename__ = 'items'
     user_id = reference_col('users', nullable=False)
     user = relationship('User', backref='user_items')
     word = Column(db.String(32), nullable=False)
-    guesses = Column(db.ARRAY(db.CHAR))
+    guesses = Column(db.ARRAY(db.String(32)), default=[])
 
     MAX_GUESSES = 6
+
+    @property
+    def masked_word(self):
+        if self.status == GameStatus.LOST:
+            return self.word
+
+        guesses = set(self.guesses)
+        value = '*' * len(self.word)
+
+        # replace the mask with the guessed characters
+        for index, char in enumerate(self.word):
+            if char in guesses:
+                value = value[0:index] + char + value[index + 1:]
+
+        return value
 
     @property
     def score(self):
@@ -30,11 +49,11 @@ class Game(SurrogatePK, Model):
 
     @property
     def status(self):
-        if len(self.guesses) > Game.MAX_GUESSES:
+        if len(self.guesses) >= Game.MAX_GUESSES:
             return GameStatus.LOST
 
         word_set = set(self.word)
-        guessed_correctly = set(self.guesses) & word_set == word_set
+        guessed_correctly = self.word in self.guesses or set(self.guesses) & word_set == word_set
         return GameStatus.WON if guessed_correctly else GameStatus.IN_PROGRESS
 
     def __init__(self, **kwargs):
@@ -43,17 +62,21 @@ class Game(SurrogatePK, Model):
 
     def __repr__(self):
         """Represent instance as a unique string."""
-        return '<Item({id})>'.format(id=self.data['item_id'])
+        return '<Game({id})>'.format(id=self.id)
 
     def to_json(self):
+        """Serialize the game model."""
+        print(self.status)
+        print(self.status.value)
         data = {
             'id': self.id,
-            'status': self.status,
+            'status': self.status.value,
             'score': self.score,
-            'guesses': self.guesses
+            'guesses': self.guesses,
+            'guesses_left': self.MAX_GUESSES - len(self.guesses),
+            'word': self.masked_word
         }
 
-        if self.status != GameStatus.IN_PROGRESS:
-            data['word'] == self.word
+        print(data)
 
         return data

@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
@@ -21,7 +22,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "game:/gameId",
+    path: "game/:gameId",
     component: GameComponent,
     canActivate: [AuthGuard]
   },
@@ -46,7 +47,12 @@ export const routes: Routes = [
     AuthSuccessComponent,
     LogoutComponent
   ],
-  imports: [BrowserModule, RouterModule.forRoot(routes), HttpClientModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+    HttpClientModule
+  ],
   providers: [AuthGuard, AuthService, GameService],
   bootstrap: [AppComponent]
 })
