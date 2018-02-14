@@ -1,11 +1,23 @@
-<button *ngIf="!game" (click)="createGame()">
-  Start Game
-</button>
+<section *ngIf="!game">
+  <button (click)="createGame()" class="button">
+    Start Game
+  </button>
+</section>
 
 <section *ngIf="game">
   <h2 class="title is-2">{{ game.word }}</h2>
 
-  <progress class="progress" [ngClass]="progressClass" [value]="progress" [max]="MAX_GUESSES"></progress>
+
+  <h1 *ngIf="game.status === 'lost'" class="title is-1 has-text-danger">You lose!</h1>
+  <h1 *ngIf="game.status === 'won'" class="title is-1 has-text-success">You won!</h1>
+  <progress
+    *ngIf="game.status === 'in_progress'"
+    class="progress"
+    [ngClass]="progressClass"
+    [value]="progress"
+    [max]="MAX_GUESSES"
+  ></progress>
+
   <div><b>Guesses:</b> {{ game.guesses.join(', ') }}</div>
 
 
@@ -41,8 +53,6 @@
     </div>
   </form>
 
-  <h1 *ngIf="game.status === 'lost'" class="title is-1 has-text-danger">You lose!</h1>
-  <h1 *ngIf="game.status === 'won'" class="title is-1 has-text-success">You won!</h1>
 
   <button class="button" (click)="createGame()">New game</button>
 </section>

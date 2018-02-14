@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
@@ -12,6 +12,7 @@ import { GameService } from "./game.service";
 import { AuthService } from "./auth.service";
 import { AuthSuccessComponent } from "./auth-success/auth-success.component";
 import { LogoutComponent } from "./logout/logout.component";
+import { DefaultErrorHandler } from "./error-handler";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -53,7 +54,13 @@ export const routes: Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule
   ],
-  providers: [AuthGuard, AuthService, GameService],
+  providers: [
+    AuthGuard,
+    AuthService,
+    GameService,
+
+    { provide: ErrorHandler, useClass: DefaultErrorHandler }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

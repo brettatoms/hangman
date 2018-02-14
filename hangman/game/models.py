@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """User models."""
 from enum import Enum
+from sqlalchemy.dialects import postgresql
 
 from hangman.database import Column, Model, SurrogatePK, db, reference_col, relationship
 
@@ -16,17 +17,20 @@ class GameStatus(Enum):
 class Game(SurrogatePK, Model):
     """Game model."""
 
-    __tablename__ = 'items'
+    __tablename__ = 'games'
     user_id = reference_col('users', nullable=False)
     user = relationship('User', backref='user_items')
     word = Column(db.String(32), nullable=False)
     guesses = Column(db.ARRAY(db.String(32)), default=[])
+    score = Column(db.Integer, default=0, nullable=False)
+    status = Column(postgresql.ENUM(GameStatus.IN_PROGRESS.value,
+                                    GameStatus.WON.value, GameStatus.LOST.value), default=GameStatus.IN_PROGRESS.value, nullable=False)
 
     MAX_GUESSES = 6
 
     @property
     def masked_word(self):
-        if self.status == GameStatus.LOST:
+        if self.status == GameStatus.LOST.value:
             return self.word
 
         if self.word in self.guesses:
@@ -42,22 +46,20 @@ class Game(SurrogatePK, Model):
 
         return value
 
-    @property
-    def score(self):
+    def recalc_score(self):
         if self.status == GameStatus.LOST:
             return -1
         elif self.status == GameStatus.IN_PROGRESS:
             return 0
         return len(self.word) - len(self.guesses) + 1
 
-    @property
-    def status(self):
+    def recalc_status(self):
         if len(self.guesses) >= Game.MAX_GUESSES:
-            return GameStatus.LOST
+            return GameStatus.LOST.value
 
         word_set = set(self.word)
         guessed_correctly = self.word in self.guesses or set(self.guesses) & word_set == word_set
-        return GameStatus.WON if guessed_correctly else GameStatus.IN_PROGRESS
+        return GameStatus.WON.value if guessed_correctly else GameStatus.IN_PROGRESS.value
 
     def __init__(self, **kwargs):
         """Create instance."""
@@ -69,11 +71,9 @@ class Game(SurrogatePK, Model):
 
     def to_json(self):
         """Serialize the game model."""
-        print(self.status)
-        print(self.status.value)
         data = {
             'id': self.id,
-            'status': self.status.value,
+            'status': self.status,
             'score': self.score,
             'guesses': self.guesses,
             'guesses_left': self.MAX_GUESSES - len(self.guesses),

@@ -37,7 +37,7 @@ def get(game_id):
 def update(game_id):
     """Update a game."""
     game = Game.query.filter_by(id=game_id, user_id=current_user.id).first_or_404()
-    if game.status != GameStatus.IN_PROGRESS:
+    if game.status != GameStatus.IN_PROGRESS.value:
         return abort(403)
 
     # TODO: validate guess
@@ -46,7 +46,8 @@ def update(game_id):
         guesses = list(game.guesses) # copy so the session will detect the change
         guesses.append(guess)
         game.guesses = guesses
+        game.score = game.recalc_score()
+        game.status = game.recalc_status()
         game.save()
 
-    print('returning')
     return jsonify(game.to_json())

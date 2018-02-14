@@ -58,10 +58,9 @@ export class GameComponent {
 
   get progressClass() {
     const progress = this.progress;
-    console.log(progress);
     if (progress <= 3) {
       return "is-success";
-    } else if (progress > 3 && progress < 6) {
+    } else if (progress > 3 && progress < 5) {
       return "is-warning";
     } else {
       return "is-danger";
