@@ -13,6 +13,8 @@ import { Game, GameService } from "../game.service";
 export class GameComponent {
   guessWord: string;
   game: Game;
+  readonly MAX_GUESSES = 6;
+
   characters = map(range(97, 123), n => String.fromCharCode(n)[0]).concat([
     "0",
     "1",
@@ -48,6 +50,22 @@ export class GameComponent {
         game => this.router.navigateByUrl(`/game/${game.id}`),
         err => console.error(err)
       );
+  }
+
+  get progress() {
+    return this.game.guesses.length;
+  }
+
+  get progressClass() {
+    const progress = this.progress;
+    console.log(progress);
+    if (progress <= 3) {
+      return "is-success";
+    } else if (progress > 3 && progress < 6) {
+      return "is-warning";
+    } else {
+      return "is-danger";
+    }
   }
 
   hasGuessed(char) {

@@ -29,6 +29,9 @@ class Game(SurrogatePK, Model):
         if self.status == GameStatus.LOST:
             return self.word
 
+        if self.word in self.guesses:
+            return self.word
+
         guesses = set(self.guesses)
         value = '*' * len(self.word)
 

@@ -3,33 +3,46 @@
 </button>
 
 <section *ngIf="game">
-  <div>
-    {{ game.word }}
+  <h2 class="title is-2">{{ game.word }}</h2>
+
+  <progress class="progress" [ngClass]="progressClass" [value]="progress" [max]="MAX_GUESSES"></progress>
+  <div><b>Guesses:</b> {{ game.guesses.join(', ') }}</div>
+
+
+  <div class="characters-container">
+    <button
+      *ngFor="let char of characters"
+      type="button"
+      class="button"
+      (click)="guess(char)"
+      [disabled]="hasGuessed(char) || game.status!=='in_progress'"
+    >{{ char }}</button>
   </div>
 
   <form (ngSubmit)="guess(guessWord, $event)">
-    <input
-      required
-      type="text"
-      name="guessWord"
-      [(ngModel)]="guessWord"
-      [disabled]="game.status !== 'in_progress'"
-    >
-    <button type="submit" [disabled]="!guessWord?.length || game.status!=='in_progress'">Solve</button>
+    <div class="field has-addons">
+      <div class="control">
+        <input
+          required
+          type="text"
+          name="guessWord"
+          class="input"
+          [(ngModel)]="guessWord"
+          [disabled]="game.status !== 'in_progress'"
+        >
+      </div>
+    <div class="control">
+      <button
+        type="submit"
+        class="button"
+        [disabled]="!guessWord?.length || game.status!=='in_progress'"
+        >Solve</button>
+    </div>
+    </div>
   </form>
 
-  <button
-    *ngFor="let char of characters"
-    type="button"
-    (click)="guess(char)"
-    [disabled]="hasGuessed(char) || game.status!=='in_progress'"
-  >{{ char }}</button>
+  <h1 *ngIf="game.status === 'lost'" class="title is-1 has-text-danger">You lose!</h1>
+  <h1 *ngIf="game.status === 'won'" class="title is-1 has-text-success">You won!</h1>
 
-  <div>Guesses: {{ game.guesses.join(', ') }}</div>
-  <div>Guesses left: {{ game.guesses_left }}</div>
-
-  <button (click)="createGame()">New game</button>
-
-  <h1 *ngIf="game.status === 'lost'">You lose!</h1>
-  <h1 *ngIf="game.status === 'won'">You won!</h1>
+  <button class="button" (click)="createGame()">New game</button>
 </section>

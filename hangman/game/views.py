@@ -42,10 +42,11 @@ def update(game_id):
 
     # TODO: validate guess
     guess = request.get_json()['guess']
-    guesses = set(game.guesses)  # make sure list is unique
-    guesses.add(guess)
-    game.guesses = list(guesses)
-    game.save()
+    if guess not in game.guesses:
+        guesses = list(game.guesses) # copy so the session will detect the change
+        guesses.append(guess)
+        game.guesses = guesses
+        game.save()
 
     print('returning')
     return jsonify(game.to_json())
