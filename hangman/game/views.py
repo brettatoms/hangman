@@ -6,6 +6,10 @@ from flask import Blueprint, abort
 from flask import current_app as app
 from flask import jsonify, request
 from flask_login import current_user, login_required
+from sqlalchemy.sql.functions import sum
+
+from hangman.database import db
+from hangman.user.models import User
 
 from .models import Game, GameStatus
 
@@ -51,3 +55,18 @@ def update(game_id):
         game.save()
 
     return jsonify(game.to_json())
+
+
+@blueprint.route('/highscores')
+@login_required
+def highscores():
+    """Update a game."""
+    result = db.session.query(User.email, sum(Game.score).label('score'))\
+                       .join(Game) \
+                       .group_by(User.id) \
+                       .order_by(db.desc('score')) \
+                       .limit(10) \
+                       .all()
+
+    data = [{'email': row[0], 'score': row[1]} for row in result]
+    return jsonify(data)

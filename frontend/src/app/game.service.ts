@@ -54,13 +54,13 @@ export class GameService {
     }) as Observable<Game>;
   }
 
-  highScores() {
+  highScores(): Observable<any> {
     const url = `${this.BASE_URL}/games/highscores`;
     const token = this.getToken();
     return this.http.get(url, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }) as Observable<Game>;
+    });
   }
 }

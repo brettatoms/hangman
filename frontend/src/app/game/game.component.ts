@@ -5,6 +5,11 @@ import { map, range } from "lodash";
 
 import { Game, GameService } from "../game.service";
 
+interface Score {
+  email: string;
+  score: number;
+}
+
 @Component({
   selector: "app-game",
   templateUrl: "./game.component.html",
@@ -13,6 +18,7 @@ import { Game, GameService } from "../game.service";
 export class GameComponent {
   guessWord: string;
   game: Game;
+  highScores: Score[];
   readonly MAX_GUESSES = 6;
 
   characters = map(range(97, 123), n => String.fromCharCode(n)[0]).concat([
@@ -39,6 +45,13 @@ export class GameComponent {
         this.gameSvc.get(gameId).subscribe(game => (this.game = game));
       }
     });
+
+    this.gameSvc.highScores().subscribe(
+      (scores: Score[]) => {
+        this.highScores = scores;
+      },
+      err => console.error(err)
+    );
 
     console.log(this.characters);
   }
