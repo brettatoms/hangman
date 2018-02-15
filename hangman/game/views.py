@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
-from random import sample
+from random import choice
 
 from flask import Blueprint, abort
 from flask import current_app as app
@@ -22,7 +22,7 @@ words_set = {'3dhubs', 'marvin', 'print', 'filament', 'order', 'layer'}
 @login_required
 def create():
     """Create a game."""
-    word = sample(words_set, 1)[0]
+    word = choice(words_set)
     game = Game(user=current_user, word=word)
     game.save()
     return jsonify(game.to_json())
