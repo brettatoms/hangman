@@ -15,25 +15,25 @@ import { LogoutComponent } from "./logout/logout.component";
 import { DefaultErrorHandler } from "./error-handler";
 
 export const routes: Routes = [
-  { path: "/hangman/login", component: LoginComponent },
-  { path: "/hangman/logout", component: LogoutComponent },
+  { path: "hangman/login", component: LoginComponent },
+  { path: "hangman/logout", component: LogoutComponent },
   {
-    path: "/hangman/game",
+    path: "hangman/game",
     component: GameComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: "/hangman/game/:gameId",
+    path: "hangman/game/:gameId",
     component: GameComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: "/hangman/auth/success",
+    path: "hangman/auth/success",
     component: AuthSuccessComponent
   },
   {
     path: "",
-    redirectTo: "/hangman/game",
+    redirectTo: "hangman/game",
     pathMatch: "full"
   }
   // { path: "404", component: PageNotFoundComponent },
