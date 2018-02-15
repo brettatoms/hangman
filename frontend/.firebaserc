@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "personal-153520"
+  },
+  "hosting": {
+    "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
