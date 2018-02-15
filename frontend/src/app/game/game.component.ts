@@ -44,16 +44,14 @@ export class GameComponent {
       if (gameId) {
         this.gameSvc.get(gameId).subscribe(game => (this.game = game));
       }
+
+      this.gameSvc.highScores().subscribe(
+        (scores: Score[]) => {
+          this.highScores = scores;
+        }
+        // err => console.error(err)
+      );
     });
-
-    this.gameSvc.highScores().subscribe(
-      (scores: Score[]) => {
-        this.highScores = scores;
-      }
-      // err => console.error(err)
-    );
-
-    console.log(this.characters);
   }
 
   createGame() {
