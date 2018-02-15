@@ -12,7 +12,9 @@ export interface Game {
 
 @Injectable()
 export class GameService {
-  BASE_URL = "http://localhost:5000";
+  BASE_URL = true
+    ? "https://hangman-ba.herokuapp.com/"
+    : "http://localhost:5000";
   constructor(private http: HttpClient) {}
 
   getToken() {

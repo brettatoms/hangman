@@ -6,7 +6,9 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class AuthService {
-  API_URL = "http://localhost:5000";
+  API_URL = true
+    ? "https://hangman-ba.herokuapp.com/"
+    : "http://localhost:5000";
 
   constructor(private http: HttpClient, private location: Location) {}
 
