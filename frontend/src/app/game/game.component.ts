@@ -49,20 +49,18 @@ export class GameComponent {
     this.gameSvc.highScores().subscribe(
       (scores: Score[]) => {
         this.highScores = scores;
-      },
-      err => console.error(err)
+      }
+      // err => console.error(err)
     );
 
     console.log(this.characters);
   }
 
   createGame() {
-    this.gameSvc
-      .create()
-      .subscribe(
-        game => this.router.navigateByUrl(`/game/${game.id}`),
-        err => console.error(err)
-      );
+    this.gameSvc.create().subscribe(
+      game => this.router.navigateByUrl(`/hangman/game/${game.id}`)
+      // err => console.error(err)
+    );
   }
 
   get progress() {

@@ -9,6 +9,6 @@ import { Router } from "@angular/router";
 export class LogoutComponent {
   constructor(private router: Router) {
     localStorage.removeItem("token");
-    this.router.navigateByUrl("/login");
+    this.router.navigateByUrl("/hangman/login");
   }
 }

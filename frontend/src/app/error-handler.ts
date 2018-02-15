@@ -13,7 +13,7 @@ export class DefaultErrorHandler implements ErrorHandler {
     console.log(error.code);
     console.log(error.message);
     if (error.status === 401) {
-      router.navigateByUrl("/logout");
+      router.navigateByUrl("/hangman/logout");
     }
   }
 }
