@@ -8,6 +8,7 @@ export interface Game {
   guesses: string[];
   score: number;
   status: string;
+  guesses_left: number;
 }
 
 @Injectable()

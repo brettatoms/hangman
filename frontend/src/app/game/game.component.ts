@@ -19,7 +19,7 @@ export class GameComponent {
   guessWord: string;
   game: Game;
   highScores: Score[];
-  readonly MAX_GUESSES = 6;
+  readonly MAX_WRONG_GUESSES = 5;
 
   characters = map(range(97, 123), n => String.fromCharCode(n)[0]).concat([
     "0",
@@ -63,15 +63,15 @@ export class GameComponent {
     );
   }
 
-  get progress() {
-    return this.game.guesses.length;
+  get progress(): number {
+    return this.MAX_WRONG_GUESSES - this.game.guesses_left;
   }
 
   get progressClass() {
     const progress = this.progress;
-    if (progress <= 3) {
+    if (progress <= 2) {
       return "is-success";
-    } else if (progress > 3 && progress < 5) {
+    } else if (progress > 2 && progress < 4) {
       return "is-warning";
     } else {
       return "is-danger";

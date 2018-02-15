@@ -26,7 +26,7 @@ class Game(SurrogatePK, Model):
     status = Column(postgresql.ENUM(GameStatus.IN_PROGRESS.value,
                                     GameStatus.WON.value, GameStatus.LOST.value, name='game_status'), default=GameStatus.IN_PROGRESS.value, nullable=False)
 
-    MAX_GUESSES = 6
+    MAX_WRONG_GUESSES = 5
 
     @property
     def masked_word(self):
@@ -54,7 +54,8 @@ class Game(SurrogatePK, Model):
         return len(self.word) - len(self.guesses) + 1
 
     def recalc_status(self):
-        if len(self.guesses) >= Game.MAX_GUESSES:
+        num_wrong_guesses = len(set(self.guesses) - set(self.word))
+        if num_wrong_guesses >= Game.MAX_WRONG_GUESSES:
             return GameStatus.LOST.value
 
         word_set = set(self.word)
@@ -76,7 +77,7 @@ class Game(SurrogatePK, Model):
             'status': self.status,
             'score': self.score,
             'guesses': self.guesses,
-            'guesses_left': self.MAX_GUESSES - len(self.guesses),
+            'guesses_left': self.MAX_WRONG_GUESSES - len(set(self.guesses) - set(self.word)),
             'word': self.masked_word
         }
 
