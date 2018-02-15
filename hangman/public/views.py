@@ -80,7 +80,7 @@ def auth_redirect():
     user.access_token = access_token
     user.save()
 
-    return redirect(app.config['APP_URL'] + f'/hangman/auth/success?token={request_token}')
+    return redirect(app.config['APP_URL'] + f'/auth/success?token={request_token}')
 
 
 @blueprint.route('/logout/')

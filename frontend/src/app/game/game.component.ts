@@ -58,7 +58,7 @@ export class GameComponent {
 
   createGame() {
     this.gameSvc.create().subscribe(
-      game => this.router.navigateByUrl(`/hangman/game/${game.id}`)
+      game => this.router.navigateByUrl(`/game/${game.id}`)
       // err => console.error(err)
     );
   }
