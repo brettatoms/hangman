@@ -15,7 +15,7 @@ from .models import Game, GameStatus
 
 blueprint = Blueprint('game', __name__, url_prefix='/games')
 
-words_set = {'3dhubs', 'marvin', 'print', 'filament', 'order', 'layer'}
+words_set = ['3dhubs', 'marvin', 'print', 'filament', 'order', 'layer']
 
 
 @blueprint.route('', methods=['POST'])
