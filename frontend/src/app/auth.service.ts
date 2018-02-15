@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 
 import { map } from "rxjs/operators";
@@ -10,12 +9,10 @@ export class AuthService {
     ? "https://hangman-ba.herokuapp.com/"
     : "http://localhost:5000";
 
-  constructor(private http: HttpClient, private location: Location) {}
+  constructor(private http: HttpClient) {}
 
   login() {
     const url = `${this.API_URL}/auth`;
-    console.log(url);
-    // this.location.go(url);
     location.href = url;
   }
 }

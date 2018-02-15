@@ -1,17 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { AuthSuccessComponent } from './auth-success.component';
+import { AuthSuccessComponent } from "./auth-success.component";
 
-describe('AuthSuccessComponent', () => {
+describe("AuthSuccessComponent", () => {
   let component: AuthSuccessComponent;
   let fixture: ComponentFixture<AuthSuccessComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AuthSuccessComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [AuthSuccessComponent],
+        imports: [RouterTestingModule]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthSuccessComponent);
@@ -19,7 +22,7 @@ describe('AuthSuccessComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

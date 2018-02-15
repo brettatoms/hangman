@@ -1,17 +1,38 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Injectable } from "@angular/core";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { FormsModule } from "@angular/forms";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import * as sinon from "sinon";
 
-import { GameComponent } from './game.component';
+import { GameService } from "../game.service";
+import { GameComponent } from "./game.component";
 
-describe('GameComponent', () => {
+@Injectable()
+export class GameServiceMock {
+  get = sinon.stub().returns(Observable.of({}));
+  highScores = sinon.stub().returns(Observable.of([]));
+}
+
+describe("GameComponent", () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GameComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, RouterTestingModule],
+        declarations: [GameComponent],
+        providers: [
+          {
+            provide: GameService,
+            useClass: GameServiceMock
+          }
+        ]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GameComponent);
@@ -19,7 +40,7 @@ describe('GameComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
