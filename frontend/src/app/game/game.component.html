@@ -7,9 +7,12 @@
 <section *ngIf="game">
   <h2 class="title is-2">{{ game.word }}</h2>
 
-
   <h1 *ngIf="game.status === 'lost'" class="title is-1 has-text-danger">You lose!</h1>
-  <h1 *ngIf="game.status === 'won'" class="title is-1 has-text-success">You won!</h1>
+  <div *ngIf="game.status === 'won'" class="chicken-dinner">
+    <h1 class="title is-1 has-text-success">You won!</h1>
+    <h2 class="subtitle is-4">Score: {{ game.score }}</h2>
+  </div>
+
   <progress
     *ngIf="game.status === 'in_progress'"
     class="progress"
@@ -19,7 +22,6 @@
   ></progress>
 
   <div><b>Guesses:</b> {{ game.guesses.join(', ') }}</div>
-
 
   <div class="characters-container">
     <button
@@ -53,13 +55,12 @@
     </div>
   </form>
 
-
   <button class="button" (click)="createGame()">New game</button>
-
 </section>
 
+<hr/>
+
 <section>
-  <hr>
   <h2 class="title is-2">High Scores</h2>
   <table>
     <thead>
