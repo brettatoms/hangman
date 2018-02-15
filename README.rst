@@ -13,7 +13,7 @@ add the following to ``.bashrc`` or ``.bash_profile``.
 
 .. code-block:: bash
 
-    export HANGMAN_SECRET='something-really-secret'
+    export SECRET_KEY='something-really-secret'
 
 Run the following commands to bootstrap your environment ::
 

@@ -6,7 +6,7 @@ import os
 class Config(object):
     """Base configuration."""
 
-    SECRET_KEY = os.environ.get('HANGMAN_SECRET', 'secret-key')  # TODO: Change me
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'secret-key')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
