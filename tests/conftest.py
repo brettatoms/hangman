@@ -46,6 +46,6 @@ def db(app):
 @pytest.fixture
 def user(db):
     """A user for the tests."""
-    user = UserFactory(password='myprecious')
+    user = UserFactory(request_token='1234', access_token='5678')
     db.session.commit()
     return user

@@ -42,5 +42,4 @@ class TestConfig(Config):
 
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://'
-    # BCRYPT_LOG_ROUNDS = 4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
+    SQLALCHEMY_DATABASE_URI = 'postgres://localhost:5555/hangmantest'

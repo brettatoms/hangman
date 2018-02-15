@@ -24,7 +24,7 @@ class Game(SurrogatePK, Model):
     guesses = Column(db.ARRAY(db.String(32)), default=[])
     score = Column(db.Integer, default=0, nullable=False)
     status = Column(postgresql.ENUM(GameStatus.IN_PROGRESS.value,
-                                    GameStatus.WON.value, GameStatus.LOST.value), default=GameStatus.IN_PROGRESS.value, nullable=False)
+                                    GameStatus.WON.value, GameStatus.LOST.value, name='game_status'), default=GameStatus.IN_PROGRESS.value, nullable=False)
 
     MAX_GUESSES = 6
 
